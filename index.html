@@ -1,0 +1,195 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style type="text/css">
+body
+{
+padding-top: 40px;
+}
+#topclock{
+padding:40px;
+}
+#jsalarmclock{
+font-weight: bold;
+font-size: 18px;
+}
+
+#jsalarmclock div{
+margin-bottom: 0.8em;
+}
+
+#jsalarmclock div.leftcolumn{
+float: left;
+width: 150px;
+clear: left;
+}
+
+#jsalarmclock span{
+margin-right: 5px;
+}
+
+</style>
+
+<script type="text/javascript">
+var jsalarm={
+	padfield:function(f){
+		return (f<10)? "0"+f : f
+	},
+	showcurrenttime:function(){
+		var dateobj=new Date()
+		var ct=this.padfield(dateobj.getHours())+":"+this.padfield(dateobj.getMinutes())+":"+this.padfield(dateobj.getSeconds())
+		this.ctref.innerHTML=ct
+		this.ctref.setAttribute("title", ct)
+		if (typeof this.hourwake!="undefined"){ //if alarm is set
+			if (this.ctref.title==(this.hourwake+":"+this.minutewake+":"+this.secondwake)){
+				clearInterval(jsalarm.timer)
+				window.open(document.getElementById("musicloc").value, '_blank');
+			}
+		}
+	},
+	init:function(){
+		var dateobj=new Date()
+		this.ctref=document.getElementById("jsalarm_ct")
+		this.submitref=document.getElementById("submitbutton")
+		this.submitref.onclick=function(){
+			jsalarm.setalarm()
+			this.value="Alarm Set"
+			this.disabled=true
+			return false
+		}
+		this.resetref=document.getElementById("resetbutton")
+		this.resetref.onclick=function(){
+		document.getElementById("submitbutton").value="Set Alarm!"
+		jsalarm.submitref.disabled=false
+		jsalarm.hourwake=undefined
+		jsalarm.hourselect.disabled=false
+		jsalarm.minuteselect.disabled=false
+		jsalarm.secondselect.disabled=false
+		return false
+		}
+		var selections=document.getElementsByTagName("select")
+		this.hourselect=selections[0]
+		this.minuteselect=selections[1]
+		this.secondselect=selections[2]
+		for (var i=0; i<60; i++){
+			if (i<24) //If still within range of hours field: 0-23
+			this.hourselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getHours()==i)
+			this.minuteselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getMinutes()==i)
+			this.secondselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getSeconds()==i)
+
+		}
+		jsalarm.showcurrenttime()
+		jsalarm.timer=setInterval(function(){jsalarm.showcurrenttime()}, 1000)
+	},
+	setalarm:function(){
+		this.hourwake=this.hourselect.options[this.hourselect.selectedIndex].value
+		this.minutewake=this.minuteselect.options[this.minuteselect.selectedIndex].value
+		this.secondwake=this.secondselect.options[this.secondselect.selectedIndex].value
+		this.hourselect.disabled=true
+		this.minuteselect.disabled=true
+		this.secondselect.disabled=true
+	}
+}
+!function(d,s,id)
+{
+	var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+	if(!d.getElementById(id)){
+	js=d.createElement(s);
+	js.id=id;
+	js.src=p+"://platform.twitter.com/widgets.js";
+	fjs.parentNode.insertBefore(js,fjs);
+	}
+}
+(document,"script","twitter-wjs");
+function addItem()
+{
+	text = document.getElementById('newitem').value;
+	document.getElementById("newlistitem").innerHTML=  text;
+}
+</script>
+<nav class="navbar-inverse navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapsingStuff" aria-expanded="true">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+				<a class="navbar-brand">HackAlarm</a>
+			</div>
+			<div class="navbar-collapse collapse in" id="collapsingStuff" aria-expanded="true">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Tools
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a class="link" href="#clock">Clock</a></li>
+						<li><a class="link" href="#jsalarmclock">Alarm</a></li>
+						<li><a class="link" href="#twitter-feed">Twitter</a></li>
+						<li><a class="link" href="./calendar.html">Calendar</a></li>
+					</ul></li></ul>
+			</div>
+		</div>
+	</nav>
+</head>
+	<div class="col-lg-6" style="background-color:white">
+		<div class="container-fluid" id="topclock" >
+			<div class="center-block" style="margin: 15px 0px 0px; display: inline-block; text-align: center; width: 288px;">
+			   <a href="" id="clock" style="text-decoration: none; font-size: 13px; color: rgb(0, 0, 0);"> </a>
+			   <script type="text/javascript" src="http://localtimes.info/clock.php?&cp1_Hex=000000&cp2_Hex=FFFFFF&cp3_Hex=000000&fwdt=288&ham=0&hbg=0&hfg=0&sid=0&mon=0&wek=0&wkf=0&sep=0&widget_number=121"></script>
+			</div>
+		</div>
+	</div>
+		<div class="container-fluid" style="padding-top:15px">
+			<form action="" method="">
+				<div id="jsalarmclock">
+					<div>
+						<br>
+						<div class="leftcolumn">Current Time:</div> 
+						<span id="jsalarm_ct" style="letter-spacing: 2px"></span>
+					</div>
+					<div>
+						<div class="leftcolumn">Set Alarm:</div> 
+						<span><select></select> Hour</span> 
+						<span><select></select> Minutes</span> 
+						<span><select></select> Seconds</span>
+					</div>
+					<div>
+						<div class="leftcolumn">Set Alarm Action:</div> 
+						<input type="text" id="musicloc" size="55" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" /> 
+						<span style="font: normal 11px Tahoma">*Location of page to launch</span>
+					</div>
+					<input type="submit" class="btn btn-primary" value="Set Alarm!" id="submitbutton" /> 
+					<input type="reset" class="btn btn-primary" value="Reset" id="resetbutton" />
+				</div>
+			</form>
+		</div>
+		<ul id="todoList">
+			<h3>To-Do List</h3>
+			<li><input type="Checkbox" /> Do the website</li>
+			<li><input type="Checkbox" /> Do the clock</li>
+			<li><input type="Checkbox" /> Do the alarm</li>
+			<li><input type="Checkbox" /><label id="newlistitem"></label></li>
+			<li><input type="text" id="newitem"><button class="btn btn-primary" onclick="addItem()" > Add to List</button></li>
+			
+		</ul>
+	</div>
+	<div class="col-lg-6" style="background-color:#A3C2FF; padding-top:30px; height:100%">
+		<div class="container-fluid" >
+		<a class="twitter-timeline" id="twitter-feed"  href="https://twitter.com/breakingweather" data-widget-id="652809214889467904">Tweets by @breakingweather</a> 
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+
+jsalarm.init()
+
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<html>
+<meta charset="utf-8">
+<style type="text/css">
+#map {
+	height: 100%;
+  }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFDG821DVyIS7LdU44fOFP58FKKoxEnrM&callback=initMap&signed_in=true" async defer></script>
+<script>
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: {lat:52.486908, lng: -1.890256}
+  });
+
+  var trafficLayer = new google.maps.TrafficLayer();
+  trafficLayer.setMap(map);
+}
+</script>
+<head>
+<nav class="navbar-inverse navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapsingStuff" aria-expanded="true">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+				<a class="navbar-brand">HackAlarm</a>
+			</div>
+			<div class="navbar-collapse collapse in" id="collapsingStuff" aria-expanded="true">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Tools
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a class="link" href="./index.html">Alarm Clock</a></li>
+					</ul></li></ul>
+			</div>
+		</div>
+	</nav>
+</head>
+<body style="background-color:#4C4C80">
+<div class="col-lg-6">
+	<div id="map"></div>
+</div>
+<div class="col-lg-6">
+<div class="container-fluid">
+	<iframe src="https://www.google.com/calendar/embed?mode=AGENDA&amp;height=400&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=as7t0po3vqftv1lgf8r95ifigg%40group.calendar.google.com&amp;color=%235F6B02&amp;ctz=Europe%2FLondon" style=" padding-top:70px; padding:60px " width="800" height="800" frameborder="0" scrolling="no"></iframe>
+</div>
+</div>
+</body>
+</html>	
